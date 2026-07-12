@@ -1,0 +1,25 @@
+.filter-group {
+  margin-bottom: 30px;
+}
+
+.filter-group h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.select-all-label {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+  padding-bottom: 10px !important;
+  color: var(--text) !important;
+}

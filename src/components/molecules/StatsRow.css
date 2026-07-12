@@ -1,0 +1,19 @@
+.stats-row td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.stats-name {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.stats-hours {
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.stats-badge-cell {
+  text-align: right;
+}
