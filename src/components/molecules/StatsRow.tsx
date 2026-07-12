@@ -1,5 +1,6 @@
 import React from 'react';
-import { Badge, BadgeType } from '../atoms/Badge';
+import { Badge } from '../atoms/Badge';
+import type { BadgeType } from '../atoms/Badge';
 import './StatsRow.css';
 
 interface StatsRowProps {

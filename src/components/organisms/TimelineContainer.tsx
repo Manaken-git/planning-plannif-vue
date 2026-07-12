@@ -1,7 +1,7 @@
 import React from 'react';
 import { TimelineHeader } from '../molecules/TimelineHeader';
 import { TimelineRow } from './TimelineRow';
-import { Seance, Professeur } from '../../types/planning';
+import type { Seance, Professeur } from '../../types/planning';
 import './TimelineContainer.css';
 
 interface TimelineContainerProps {

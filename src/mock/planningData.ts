@@ -1,4 +1,4 @@
-import { Planning } from '../types/planning';
+import type { Planning } from '../types/planning';
 
 export const mockPlanningData: Planning = {
   score: "0hard/-12soft",

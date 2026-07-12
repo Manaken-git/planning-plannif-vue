@@ -1,5 +1,5 @@
 import React from 'react';
-import { Seance, Professeur } from '../../types/planning';
+import type { Seance, Professeur } from '../../types/planning';
 import './TimelineRow.css';
 
 interface TimelineRowProps {
