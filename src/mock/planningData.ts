@@ -1,103 +1,325 @@
 import type { Planning } from '../types/planning';
 
 export const mockPlanningData: Planning = {
-  score: "0hard/-12soft",
+  score: "0hard/0soft",
   professeurs: [
-    { id: 1, nom: "M. Dupont", prenom: "Jean", email: "jean.dupont@univ.fr", nb_heures: 8, maxHeuresParJour: 6 },
-    { id: 2, nom: "Mme. Martin", prenom: "Sophie", email: "sophie.martin@univ.fr", nb_heures: 12, maxHeuresParJour: 6 },
-    { id: 3, nom: "M. Durand", prenom: "Pierre", email: "pierre.durand@univ.fr", nb_heures: 4, maxHeuresParJour: 4 },
-    { id: 4, nom: "Mme. Lefebvre", prenom: "Marie", email: "marie.lefebvre@univ.fr", nb_heures: 6, maxHeuresParJour: 6 }
+    { id: 1, nom: "M. Martin", nb_heures: 6, maxHeuresParJour: 6 },
+    { id: 2, nom: "Mme Bernard", nb_heures: 8, maxHeuresParJour: 6 },
+    { id: 3, nom: "M. Petit", nb_heures: 12, maxHeuresParJour: 8 },
+    { id: 4, nom: "Mme Robert", nb_heures: 14, maxHeuresParJour: 8 },
+    { id: 5, nom: "M. Richard", nb_heures: 12, maxHeuresParJour: 8 },
+    { id: 6, nom: "Mme Durand", nb_heures: 2, maxHeuresParJour: 4 },
+    { id: 7, nom: "M. Dubois", nb_heures: 8, maxHeuresParJour: 6 },
+    { id: 8, nom: "Mme Moreau", nb_heures: 4, maxHeuresParJour: 4 },
+    { id: 9, nom: "M. Laurent", nb_heures: 8, maxHeuresParJour: 6 },
+    { id: 10, nom: "Mme Simon", nb_heures: 6, maxHeuresParJour: 6 }
   ],
   classes: [
-    { id: 101, nom: "M1 Informatique" },
-    { id: 102, nom: "M2 Informatique" },
-    { id: 103, nom: "L3 MIAGE" }
+    { id: 1, nom: "6ème 1" },
+    { id: 2, nom: "6ème 2" },
+    { id: 3, nom: "5ème 1" },
+    { id: 4, nom: "5ème 2" },
+    { id: 5, nom: "4ème 1" },
+    { id: 6, nom: "4ème 2" },
+    { id: 7, nom: "3ème 1" },
+    { id: 8, nom: "3ème 2" },
+    { id: 9, nom: "2nde 1" },
+    { id: 10, nom: "2nde 2" }
   ],
   matieres: [
-    { id: 201, nom: "Algorithmique Avancée", volumeHoraireAnnuel: 24 },
-    { id: 202, nom: "Bases de Données NoSQL", volumeHoraireAnnuel: 16 },
-    { id: 203, nom: "Développement React", volumeHoraireAnnuel: 20 },
-    { id: 204, nom: "Architecture Systèmes", volumeHoraireAnnuel: 12 }
+    { id: 1, nom: "Mathématiques" },
+    { id: 2, nom: "Physique" },
+    { id: 3, nom: "Français" },
+    { id: 4, nom: "Anglais" },
+    { id: 5, nom: "Histoire" },
+    { id: 6, nom: "Géographie" }
   ],
-  matiereClasseConfigs: [
-    {
-      classe: { id: 101, nom: "M1 Informatique" },
-      matiere: { id: 201, nom: "Algorithmique Avancée" },
-      dateDebut: "2026-07-01",
-      dateFin: "2026-07-31"
-    },
-    {
-      classe: { id: 102, nom: "M2 Informatique" },
-      matiere: { id: 202, nom: "Bases de Données NoSQL" },
-      dateDebut: "2026-07-10",
-      dateFin: "2026-07-20"
-    },
-    {
-      classe: { id: 103, nom: "L3 MIAGE" },
-      matiere: { id: 203, nom: "Développement React" },
-      dateDebut: "2026-07-05",
-      dateFin: "2026-07-25"
-    }
-  ],
+  matiereClasseConfigs: [],
   seances: [
-    // Jour 1 (13 Juillet 2026)
+    // LUNDI 12 FEVRIER 2026
     {
-      id: 1001,
-      professeur: { id: 1, nom: "M. Dupont" },
-      classe: { id: 101, nom: "M1 Informatique" },
-      matiere: { id: 201, nom: "Algorithmique Avancée" },
-      creneau: { id: 501, debut: "2026-07-13T08:00:00", fin: "2026-07-13T10:00:00" },
-      type: "COURS"
+      id: 1,
+      professeur: { id: 5, nom: "M. Richard" },
+      classe: { id: 6, nom: "4ème 2" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 101, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
     },
     {
-      id: 1002,
-      professeur: { id: 1, nom: "M. Dupont" },
-      classe: { id: 101, nom: "M1 Informatique" },
-      matiere: { id: 201, nom: "Algorithmique Avancée" },
-      creneau: { id: 502, debut: "2026-07-13T10:30:00", fin: "2026-07-13T12:30:00" },
-      type: "TP"
+      id: 2,
+      professeur: { id: 5, nom: "M. Richard" },
+      classe: { id: 6, nom: "4ème 2" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 102, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
     },
     {
-      id: 1003,
-      professeur: { id: 2, nom: "Mme. Martin" },
-      classe: { id: 102, nom: "M2 Informatique" },
-      matiere: { id: 202, nom: "Bases de Données NoSQL" },
-      creneau: { id: 503, debut: "2026-07-13T09:00:00", fin: "2026-07-13T12:00:00" },
-      type: "COURS"
+      id: 3,
+      professeur: { id: 5, nom: "M. Richard" },
+      classe: { id: 3, nom: "5ème 1" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 103, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
     },
     {
-      id: 1004,
-      professeur: { id: 2, nom: "Mme. Martin" },
-      classe: { id: 103, nom: "L3 MIAGE" },
-      matiere: { id: 203, nom: "Développement React" },
-      creneau: { id: 504, debut: "2026-07-13T14:00:00", fin: "2026-07-13T17:00:00" },
-      type: "TP"
+      id: 4,
+      professeur: { id: 5, nom: "M. Richard" },
+      classe: { id: 1, nom: "6ème 1" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 104, debut: "2026-02-12T15:15:00", fin: "2026-02-12T17:15:00" }
     },
     {
-      id: 1005,
-      professeur: { id: 3, nom: "M. Durand" },
-      classe: { id: 103, nom: "L3 MIAGE" },
-      matiere: { id: 204, nom: "Architecture Systèmes" },
-      creneau: { id: 505, debut: "2026-07-13T14:00:00", fin: "2026-07-13T16:00:00" },
-      type: "COURS"
+      id: 5,
+      professeur: { id: 7, nom: "M. Dubois" },
+      classe: { id: 5, nom: "4ème 1" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 105, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
+    },
+    {
+      id: 6,
+      professeur: { id: 7, nom: "M. Dubois" },
+      classe: { id: 3, nom: "5ème 1" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 106, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 7,
+      professeur: { id: 7, nom: "M. Dubois" },
+      classe: { id: 2, nom: "6ème 2" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 107, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 8,
+      professeur: { id: 8, nom: "Mme Moreau" },
+      classe: { id: 1, nom: "6ème 1" },
+      matiere: { id: 4, nom: "Anglais" },
+      creneau: { id: 108, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 9,
+      professeur: { id: 8, nom: "Mme Moreau" },
+      classe: { id: 7, nom: "3ème 1" },
+      matiere: { id: 4, nom: "Anglais" },
+      creneau: { id: 109, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 10,
+      professeur: { id: 9, nom: "M. Laurent" },
+      classe: { id: 3, nom: "5ème 1" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 110, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
+    },
+    {
+      id: 11,
+      professeur: { id: 9, nom: "M. Laurent" },
+      classe: { id: 8, nom: "3ème 2" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 111, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 12,
+      professeur: { id: 9, nom: "M. Laurent" },
+      classe: { id: 10, nom: "2nde 2" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 112, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 13,
+      professeur: { id: 9, nom: "M. Laurent" },
+      classe: { id: 10, nom: "2nde 2" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 113, debut: "2026-02-12T15:15:00", fin: "2026-02-12T17:15:00" }
+    },
+    {
+      id: 14,
+      professeur: { id: 10, nom: "Mme Simon" },
+      classe: { id: 7, nom: "3ème 1" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 114, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
+    },
+    {
+      id: 15,
+      professeur: { id: 10, nom: "Mme Simon" },
+      classe: { id: 9, nom: "2nde 1" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 115, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 16,
+      professeur: { id: 10, nom: "Mme Simon" },
+      classe: { id: 9, nom: "2nde 1" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 116, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 17,
+      professeur: { id: 2, nom: "Mme Bernard" },
+      classe: { id: 1, nom: "6ème 1" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 117, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
+    },
+    {
+      id: 18,
+      professeur: { id: 2, nom: "Mme Bernard" },
+      classe: { id: 4, nom: "5ème 2" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 118, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 19,
+      professeur: { id: 2, nom: "Mme Bernard" },
+      classe: { id: 4, nom: "5ème 2" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 119, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 20,
+      professeur: { id: 2, nom: "Mme Bernard" },
+      classe: { id: 9, nom: "2nde 1" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 120, debut: "2026-02-12T15:15:00", fin: "2026-02-12T17:15:00" }
+    },
+    {
+      id: 21,
+      professeur: { id: 3, nom: "M. Petit" },
+      classe: { id: 2, nom: "6ème 2" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 121, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
+    },
+    {
+      id: 22,
+      professeur: { id: 3, nom: "M. Petit" },
+      classe: { id: 5, nom: "4ème 1" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 122, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 23,
+      professeur: { id: 3, nom: "M. Petit" },
+      classe: { id: 6, nom: "4ème 2" },
+      matiere: { id: 2, nom: "Physique" },
+      creneau: { id: 123, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 24,
+      professeur: { id: 3, nom: "M. Petit" },
+      classe: { id: 7, nom: "3ème 1" },
+      matiere: { id: 5, nom: "Histoire" },
+      creneau: { id: 124, debut: "2026-02-12T15:15:00", fin: "2026-02-12T17:15:00" }
+    },
+    {
+      id: 25,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 4, nom: "5ème 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 125, debut: "2026-02-12T08:00:00", fin: "2026-02-12T10:00:00" }
+    },
+    {
+      id: 26,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 2, nom: "6ème 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 126, debut: "2026-02-12T10:15:00", fin: "2026-02-12T12:15:00" }
+    },
+    {
+      id: 27,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 1, nom: "6ème 1" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 127, debut: "2026-02-12T13:00:00", fin: "2026-02-12T15:00:00" }
+    },
+    {
+      id: 28,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 4, nom: "5ème 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 128, debut: "2026-02-12T15:15:00", fin: "2026-02-12T17:15:00" }
     },
 
-    // Jour 2 (14 Juillet 2026)
+    // MARDI 13 FEVRIER 2026
     {
-      id: 1006,
-      professeur: { id: 1, nom: "M. Dupont" },
-      classe: { id: 101, nom: "M1 Informatique" },
-      matiere: { id: 201, nom: "Algorithmique Avancée" },
-      creneau: { id: 506, debut: "2026-07-14T09:00:00", fin: "2026-07-14T11:00:00" },
-      type: "COURS"
+      id: 29,
+      professeur: { id: 5, nom: "M. Richard" },
+      classe: { id: 2, nom: "6ème 2" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 129, debut: "2026-02-13T08:00:00", fin: "2026-02-13T10:00:00" }
     },
     {
-      id: 1007,
-      professeur: { id: 4, nom: "Mme. Lefebvre" },
-      classe: { id: 102, nom: "M2 Informatique" },
-      matiere: { id: 203, nom: "Développement React" },
-      creneau: { id: 507, debut: "2026-07-14T13:30:00", fin: "2026-07-14T16:30:00" },
-      type: "TP"
+      id: 30,
+      professeur: { id: 5, nom: "M. Richard" },
+      classe: { id: 3, nom: "5ème 1" },
+      matiere: { id: 3, nom: "Français" },
+      creneau: { id: 130, debut: "2026-02-13T10:15:00", fin: "2026-02-13T12:15:00" }
+    },
+    {
+      id: 31,
+      professeur: { id: 6, nom: "Mme Durand" },
+      classe: { id: 6, nom: "4ème 2" },
+      matiere: { id: 4, nom: "Anglais" },
+      creneau: { id: 131, debut: "2026-02-13T08:00:00", fin: "2026-02-13T10:00:00" }
+    },
+    {
+      id: 32,
+      professeur: { id: 1, nom: "M. Martin" },
+      classe: { id: 5, nom: "4ème 1" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 132, debut: "2026-02-13T08:00:00", fin: "2026-02-13T10:00:00" }
+    },
+    {
+      id: 33,
+      professeur: { id: 1, nom: "M. Martin" },
+      classe: { id: 5, nom: "4ème 1" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 133, debut: "2026-02-13T10:15:00", fin: "2026-02-13T12:15:00" }
+    },
+    {
+      id: 34,
+      professeur: { id: 1, nom: "M. Martin" },
+      classe: { id: 8, nom: "3ème 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 134, debut: "2026-02-13T13:00:00", fin: "2026-02-13T15:00:00" }
+    },
+    {
+      id: 35,
+      professeur: { id: 3, nom: "M. Petit" },
+      classe: { id: 7, nom: "3ème 1" },
+      matiere: { id: 5, nom: "Histoire" },
+      creneau: { id: 135, debut: "2026-02-13T08:00:00", fin: "2026-02-13T10:00:00" }
+    },
+    {
+      id: 36,
+      professeur: { id: 3, nom: "M. Petit" },
+      classe: { id: 8, nom: "3ème 2" },
+      matiere: { id: 5, nom: "Histoire" },
+      creneau: { id: 136, debut: "2026-02-13T10:15:00", fin: "2026-02-13T12:15:00" }
+    },
+    {
+      id: 37,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 8, nom: "3ème 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 137, debut: "2026-02-13T08:00:00", fin: "2026-02-13T10:00:00" }
+    },
+    {
+      id: 38,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 10, nom: "2nde 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 138, debut: "2026-02-13T10:15:00", fin: "2026-02-13T12:15:00" }
+    },
+    {
+      id: 39,
+      professeur: { id: 4, nom: "Mme Robert" },
+      classe: { id: 10, nom: "2nde 2" },
+      matiere: { id: 1, nom: "Mathématiques" },
+      creneau: { id: 139, debut: "2026-02-13T13:00:00", fin: "2026-02-13T15:00:00" }
+    },
+
+    // MERCREDI 14 FEVRIER 2026
+    {
+      id: 40,
+      professeur: { id: 7, nom: "M. Dubois" },
+      classe: { id: 9, nom: "2nde 1" },
+      matiere: { id: 6, nom: "Géographie" },
+      creneau: { id: 140, debut: "2026-02-14T08:00:00", fin: "2026-02-14T10:00:00" }
     }
   ]
 };

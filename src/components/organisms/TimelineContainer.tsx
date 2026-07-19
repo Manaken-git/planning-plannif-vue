@@ -8,12 +8,18 @@ interface TimelineContainerProps {
   dateStr: string;
   professors: Professeur[];
   seances: Seance[];
+  selectedProfs: number[];
+  selectedClasses: number[];
+  selectedMatieres: number[];
 }
 
 export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   dateStr,
   professors,
-  seances
+  seances,
+  selectedProfs,
+  selectedClasses,
+  selectedMatieres
 }) => {
   const formatDate = (isoStr: string) => {
     const date = new Date(isoStr);
@@ -34,10 +40,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
     return acc;
   }, {} as Record<number, Seance[]>);
 
-  // Filter professors that have sessions on this day or that we want to display
+  // Filter professors that are selected in filters AND have sessions on this day
   const activeProfs = professors.filter((prof) => {
+    const isSelected = selectedProfs.includes(prof.id);
     const profSessions = sessionsByProf[prof.id] || [];
-    return profSessions.length > 0;
+    return isSelected && profSessions.length > 0;
   });
 
   if (activeProfs.length === 0) return null;
@@ -52,6 +59,8 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
             key={prof.id}
             prof={prof}
             seances={sessionsByProf[prof.id] || []}
+            selectedClasses={selectedClasses}
+            selectedMatieres={selectedMatieres}
           />
         ))}
       </div>

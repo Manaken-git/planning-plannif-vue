@@ -5,9 +5,16 @@ import './TimelineRow.css';
 interface TimelineRowProps {
   prof: Professeur;
   seances: Seance[];
+  selectedClasses: number[];
+  selectedMatieres: number[];
 }
 
-export const TimelineRow: React.FC<TimelineRowProps> = ({ prof, seances }) => {
+export const TimelineRow: React.FC<TimelineRowProps> = ({
+  prof,
+  seances,
+  selectedClasses,
+  selectedMatieres
+}) => {
   const calculateOffset = (startStr: string) => {
     const start = new Date(startStr);
     const startHour = start.getHours() + start.getMinutes() / 60.0;
@@ -26,6 +33,13 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({ prof, seances }) => {
     return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
   };
 
+  // Filter sessions based on class and subject checkboxes
+  const visibleSeances = seances.filter((seance) => {
+    const isClasseSelected = selectedClasses.includes(seance.classe.id);
+    const isMatiereSelected = selectedMatieres.includes(seance.matiere.id);
+    return isClasseSelected && isMatiereSelected;
+  });
+
   return (
     <div className="timeline-row">
       <div className="row-label">{prof.nom}</div>
@@ -36,7 +50,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({ prof, seances }) => {
         ))}
 
         {/* Sessions */}
-        {seances.map((seance) => {
+        {visibleSeances.map((seance) => {
           if (!seance.creneau) return null;
           const offset = calculateOffset(seance.creneau.debut);
           const width = calculateWidth(seance.creneau.debut, seance.creneau.fin);
@@ -51,7 +65,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({ prof, seances }) => {
               <div className="session-title">{seance.matiere.nom}</div>
               <div className="session-info">{seance.classe.nom}</div>
               <div className="session-time">
-                {formatTime(seance.creneau.debut)} - {formatTime(seance.creneau.fin)}
+                {formatTime(seance.creneau.debut)}
               </div>
             </div>
           );

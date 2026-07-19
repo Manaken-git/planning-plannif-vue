@@ -14,7 +14,7 @@
   padding: 15px;
   font-weight: 600;
   border-right: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.01);
+  background: #fafafa;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -30,7 +30,7 @@
 
 .grid-line {
   flex: 1;
-  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid #f1f5f9;
   height: 100%;
   pointer-events: none;
 }
@@ -49,20 +49,20 @@
   padding: 12px;
   font-size: 0.8rem;
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .session-bar:hover {
-  transform: translateY(-3px) scale(1.02);
+  transform: translateY(-3px) scale(1.01);
   z-index: 50;
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .session-title {
@@ -75,7 +75,7 @@
 
 .session-info {
   font-size: 0.75rem;
-  opacity: 0.9;
+  opacity: 0.95;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -83,7 +83,7 @@
 
 .session-time {
   font-family: monospace;
-  opacity: 0.8;
-  font-size: 0.7rem;
+  opacity: 0.9;
+  font-size: 0.75rem;
   margin-top: 4px;
 }
