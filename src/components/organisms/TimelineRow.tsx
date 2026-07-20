@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Seance, Professeur } from '../../types/planning';
+import { formatProfName, type Seance, type Professeur } from '../../types/planning';
 import './TimelineRow.css';
 
 interface TimelineRowProps {
@@ -42,7 +42,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
 
   return (
     <div className="timeline-row">
-      <div className="row-label">{prof.nom}</div>
+      <div className="row-label">{formatProfName(prof)}</div>
       <div className="row-content">
         {/* Grid helper lines */}
         {Array.from({ length: 11 }).map((_, idx) => (

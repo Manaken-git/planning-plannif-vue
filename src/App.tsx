@@ -5,8 +5,9 @@ import { FilterGroup } from './components/organisms/FilterGroup';
 import { StatsCard } from './components/organisms/StatsCard';
 import { StatsRow } from './components/molecules/StatsRow';
 import { mockPlanningData } from './mock/planningData';
-import type { Planning, Seance } from './types/planning';
+import { formatProfName, type Planning, type Seance } from './types/planning';
 import type { BadgeType } from './components/atoms/Badge';
+import { fetchAllPlanningData, solvePlanning } from './services/planningApi';
 
 // Helper to extract unique dates from seances
 const getUniqueDates = (seances: Seance[]) => {
@@ -37,7 +38,39 @@ function App() {
   const [isPlanning, setIsPlanning] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
 
-  // Initialize filter selections
+  // Fetch initial data from plannif-data API
+  useEffect(() => {
+    const loadBackendData = async () => {
+      try {
+        const data = await fetchAllPlanningData();
+        const hasData =
+          data.classes.length > 0 ||
+          data.professeurs.length > 0 ||
+          data.seances.length > 0 ||
+          data.matieres.length > 0;
+
+        if (hasData) {
+          setPlanningData((prev) => ({
+            ...prev,
+            classes: data.classes.length > 0 ? data.classes : prev.classes,
+            professeurs: data.professeurs.length > 0 ? data.professeurs : prev.professeurs,
+            seances: data.seances.length > 0 ? data.seances : prev.seances,
+            matieres: data.matieres.length > 0 ? data.matieres : prev.matieres,
+            salles: data.salles.length > 0 ? data.salles : prev.salles,
+            eleves: data.eleves.length > 0 ? data.eleves : prev.eleves,
+          }));
+          setToast({ message: "Données alimentées via le projet plannif-data (/planning-data/*) !", type: 'success' });
+          setTimeout(() => setToast(null), 3500);
+        }
+      } catch (err) {
+        console.warn("Impossible de charger les données plannif-data, utilisation du mode démo / mock", err);
+      }
+    };
+
+    loadBackendData();
+  }, []);
+
+  // Initialize filter selections when planningData components change
   useEffect(() => {
     setSelectedProfs(planningData.professeurs.map((p) => p.id));
     setSelectedClasses(planningData.classes.map((c) => c.id));
@@ -78,7 +111,7 @@ function App() {
 
       return {
         id: prof.id,
-        name: prof.nom,
+        name: formatProfName(prof),
         hours,
         badgeType,
         statusLabel
@@ -131,23 +164,29 @@ function App() {
   // Launch planning API call with local fallback simulation
   const handleLaunchPlanning = async () => {
     setIsPlanning(true);
-    setToast({ message: "Lancement de la planification via l'API ordonnanceur...", type: 'info' });
+    setToast({ message: "Lancement de la planification via GET /planning/solve...", type: 'info' });
 
     try {
-      const response = await fetch('http://localhost:8080/planning/solve', {
-        method: 'GET'
-      });
+      const result = await solvePlanning();
 
-      if (!response.ok) {
-        throw new Error('Erreur lors du calcul de planification par le serveur.');
+      if (Array.isArray(result)) {
+        setPlanningData((prev) => ({
+          ...prev,
+          seances: result,
+        }));
+      } else if (result && typeof result === 'object') {
+        setPlanningData((prev) => ({
+          ...prev,
+          ...result,
+          seances: result.seances || prev.seances,
+          score: result.score !== undefined ? result.score : prev.score,
+        }));
       }
 
-      const updatedPlanning: Planning = await response.json();
-      setPlanningData(updatedPlanning);
-      setToast({ message: "Planification recalculée avec succès via l'API !", type: 'success' });
+      setToast({ message: "Planification recalculée avec succès via /planning/solve !", type: 'success' });
     } catch (err) {
-      console.warn("Échec de l'appel API, bascule sur le solveur simulé en local...", err);
-      setToast({ message: "API non disponible. Simulation de la planification en cours...", type: 'info' });
+      console.warn("Échec de l'appel API /planning/solve, bascule sur le solveur simulé en local...", err);
+      setToast({ message: "API /planning/solve non disponible. Simulation de la planification en cours...", type: 'info' });
 
       // Simulate solver calculation duration
       await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -155,7 +194,6 @@ function App() {
       // Visual shuffling of seances to demonstrate solver repositioning
       const updatedSeances = [...planningData.seances];
       if (updatedSeances.length >= 2) {
-        // Swap creneaux of two randomly chosen sessions to physically move bars on the Gantt chart
         const count = Math.min(3, Math.floor(updatedSeances.length / 2));
         for (let i = 0; i < count; i++) {
           const idx1 = Math.floor(Math.random() * updatedSeances.length);
@@ -172,7 +210,6 @@ function App() {
         }
       }
 
-      // Generate a new soft score as mock solver result
       const randomSoft = -Math.floor(Math.random() * 8);
       const updatedScore = `0hard/${randomSoft}soft`;
 
@@ -240,7 +277,7 @@ function App() {
         <FilterGroup
           title="Professeurs"
           type="prof"
-          items={planningData.professeurs.map((p) => ({ id: p.id, name: p.nom }))}
+          items={planningData.professeurs.map((p) => ({ id: p.id, name: formatProfName(p) }))}
           selectedIds={selectedProfs}
           onToggleAll={handleToggleProfAll}
           onToggleItem={handleToggleProfItem}

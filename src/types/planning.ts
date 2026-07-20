@@ -9,6 +9,11 @@ export interface Professeur {
   maxHeuresParSeance?: number;
 }
 
+export function formatProfName(prof?: Professeur | null): string {
+  if (!prof) return '';
+  return prof.prenom ? `${prof.prenom} ${prof.nom}` : prof.nom;
+}
+
 export interface Classe {
   id: number;
   nom: string;
@@ -18,6 +23,21 @@ export interface Matiere {
   id: number;
   nom: string;
   volumeHoraireAnnuel?: number;
+}
+
+export interface Eleve {
+  id: number;
+  nom: string;
+  prenom?: string;
+  classe?: Classe | null;
+}
+
+export interface Salle {
+  id: number;
+  code?: string;
+  nom?: string;
+  capacite?: number;
+  type?: string;
 }
 
 export interface Creneau {
@@ -32,7 +52,8 @@ export interface Seance {
   classe: Classe;
   matiere: Matiere;
   creneau: Creneau | null;
-  type?: 'COURS' | 'TP' | 'EXAMEN';
+  salle?: Salle | null;
+  type?: 'COURS' | 'TP' | 'EXAMEN' | string;
 }
 
 export interface MatiereClasseConfig {
@@ -47,6 +68,8 @@ export interface Planning {
   professeurs: Professeur[];
   classes: Classe[];
   matieres: Matiere[];
+  salles?: Salle[];
+  eleves?: Eleve[];
   matiereClasseConfigs: MatiereClasseConfig[];
   score?: {
     hard: number;

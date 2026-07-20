@@ -3,16 +3,16 @@ import type { Planning } from '../types/planning';
 export const mockPlanningData: Planning = {
   score: "0hard/0soft",
   professeurs: [
-    { id: 1, nom: "M. Martin", nb_heures: 6, maxHeuresParJour: 6 },
-    { id: 2, nom: "Mme Bernard", nb_heures: 8, maxHeuresParJour: 6 },
-    { id: 3, nom: "M. Petit", nb_heures: 12, maxHeuresParJour: 8 },
-    { id: 4, nom: "Mme Robert", nb_heures: 14, maxHeuresParJour: 8 },
-    { id: 5, nom: "M. Richard", nb_heures: 12, maxHeuresParJour: 8 },
-    { id: 6, nom: "Mme Durand", nb_heures: 2, maxHeuresParJour: 4 },
-    { id: 7, nom: "M. Dubois", nb_heures: 8, maxHeuresParJour: 6 },
-    { id: 8, nom: "Mme Moreau", nb_heures: 4, maxHeuresParJour: 4 },
-    { id: 9, nom: "M. Laurent", nb_heures: 8, maxHeuresParJour: 6 },
-    { id: 10, nom: "Mme Simon", nb_heures: 6, maxHeuresParJour: 6 }
+    { id: 1, nom: "Martin", prenom: "Jean", nb_heures: 6, maxHeuresParJour: 6 },
+    { id: 2, nom: "Bernard", prenom: "Sophie", nb_heures: 8, maxHeuresParJour: 6 },
+    { id: 3, nom: "Petit", prenom: "Thomas", nb_heures: 12, maxHeuresParJour: 8 },
+    { id: 4, nom: "Robert", prenom: "Claire", nb_heures: 14, maxHeuresParJour: 8 },
+    { id: 5, nom: "Richard", prenom: "Luc", nb_heures: 12, maxHeuresParJour: 8 },
+    { id: 6, nom: "Durand", prenom: "Marie", nb_heures: 2, maxHeuresParJour: 4 },
+    { id: 7, nom: "Dubois", prenom: "Pierre", nb_heures: 8, maxHeuresParJour: 6 },
+    { id: 8, nom: "Moreau", prenom: "Julie", nb_heures: 4, maxHeuresParJour: 4 },
+    { id: 9, nom: "Laurent", prenom: "Antoine", nb_heures: 8, maxHeuresParJour: 6 },
+    { id: 10, nom: "Simon", prenom: "Élodie", nb_heures: 6, maxHeuresParJour: 6 }
   ],
   classes: [
     { id: 1, nom: "6ème 1" },
