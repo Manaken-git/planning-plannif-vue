@@ -1,19 +1,17 @@
 import React from 'react';
-import { formatProfName, type Seance, type Professeur } from '../../types/planning';
+import { formatProfName, type Seance } from '../../types/planning';
 import './TimelineRow.css';
 
 interface TimelineRowProps {
-  prof: Professeur;
+  rowLabel: string;
   seances: Seance[];
-  selectedClasses: number[];
-  selectedMatieres: number[];
+  groupMode: 'prof' | 'classe' | 'salle';
 }
 
 export const TimelineRow: React.FC<TimelineRowProps> = ({
-  prof,
+  rowLabel,
   seances,
-  selectedClasses,
-  selectedMatieres
+  groupMode
 }) => {
   const calculateOffset = (startStr: string) => {
     const start = new Date(startStr);
@@ -33,16 +31,13 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
   };
 
-  // Filter sessions based on class and subject checkboxes
-  const visibleSeances = seances.filter((seance) => {
-    const isClasseSelected = selectedClasses.includes(seance.classe.id);
-    const isMatiereSelected = selectedMatieres.includes(seance.matiere.id);
-    return isClasseSelected && isMatiereSelected;
-  });
+  // Sessions are pre-filtered at parent level
+  const visibleSeances = seances;
+
 
   return (
     <div className="timeline-row">
-      <div className="row-label">{formatProfName(prof)}</div>
+      <div className="row-label" title={rowLabel}>{rowLabel}</div>
       <div className="row-content">
         {/* Grid helper lines */}
         {Array.from({ length: 11 }).map((_, idx) => (
@@ -55,17 +50,37 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           const offset = calculateOffset(seance.creneau.debut);
           const width = calculateWidth(seance.creneau.debut, seance.creneau.fin);
 
+          const startT = formatTime(seance.creneau.debut);
+          const endT = formatTime(seance.creneau.fin);
+
+          const profName = formatProfName(seance.professeur) || 'Non assigné';
+          const className = seance.classe.nom;
+          const roomName = seance.salle?.nom || seance.salle?.code || 'Sans salle';
+          const subjectName = seance.matiere.nom;
+
+          // Dynamic secondary text inside the block
+          let displayInfo = '';
+          if (groupMode === 'prof') {
+            displayInfo = `${className} • ${roomName}`;
+          } else if (groupMode === 'classe') {
+            displayInfo = `${profName} • ${roomName}`;
+          } else {
+            displayInfo = `${profName} • ${className}`;
+          }
+
+          const tooltip = `Matière : ${subjectName}\nEnseignant : ${profName}\nClasse : ${className}\nSalle : ${roomName}\nHoraire : ${startT} - ${endT}`;
+
           return (
             <div
               key={seance.id}
-              className="session-bar"
+              className={`session-bar group-mode-${groupMode}`}
               style={{ left: `${offset}%`, width: `${width}%` }}
-              title={`${seance.matiere.nom} - ${seance.classe.nom}`}
+              title={tooltip}
             >
-              <div className="session-title">{seance.matiere.nom}</div>
-              <div className="session-info">{seance.classe.nom}</div>
+              <div className="session-title">{subjectName}</div>
+              <div className="session-info">{displayInfo}</div>
               <div className="session-time">
-                {formatTime(seance.creneau.debut)}
+                {startT} - {endT}
               </div>
             </div>
           );
@@ -74,3 +89,4 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     </div>
   );
 };
+

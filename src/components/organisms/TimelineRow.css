@@ -15,11 +15,14 @@
   font-weight: 600;
   border-right: 1px solid var(--border);
   background: #fafafa;
-  display: flex;
-  align-items: center;
+  display: block; /* changed from flex to support text-overflow ellipsis properly */
+  align-self: center;
   flex-shrink: 0;
   color: var(--text);
   font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .row-content {
@@ -46,7 +49,7 @@
   background: linear-gradient(135deg, var(--primary), var(--accent));
   color: white;
   border-radius: 8px;
-  padding: 12px;
+  padding: 10px 12px;
   font-size: 0.8rem;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -87,3 +90,20 @@
   font-size: 0.75rem;
   margin-top: 4px;
 }
+
+/* Distinct color accents by grouping mode */
+.session-bar.group-mode-prof {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-left: 4px solid var(--accent);
+}
+
+.session-bar.group-mode-classe {
+  background: linear-gradient(135deg, #0d9488, #10b981);
+  border-left: 4px solid #047857;
+}
+
+.session-bar.group-mode-salle {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  border-left: 4px solid #b45309;
+}
+

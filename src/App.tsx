@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import './App.css';
 import { TimelineContainer } from './components/organisms/TimelineContainer';
+import { DayGrid } from './components/organisms/DayGrid';
 import { FilterGroup } from './components/organisms/FilterGroup';
 import { StatsCard } from './components/organisms/StatsCard';
 import { StatsRow } from './components/molecules/StatsRow';
@@ -37,6 +38,14 @@ function App() {
   const [selectedMatieres, setSelectedMatieres] = useState<number[]>([]);
   const [isPlanning, setIsPlanning] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+
+  // Advanced pagination/filtering states for large datasets
+  const [selectedDate, setSelectedDate] = useState<string>('all');
+  const [groupMode, setGroupMode] = useState<'prof' | 'classe' | 'salle'>('prof');
+  const [viewMode, setViewMode] = useState<'timeline' | 'grid'>('timeline');
+  const [profSearch, setProfSearch] = useState('');
+  const [classSearch, setClassSearch] = useState('');
+  const [matiereSearch, setMatiereSearch] = useState('');
 
   // Fetch initial data from plannif-data API
   useEffect(() => {
@@ -161,6 +170,50 @@ function App() {
     });
   }, [planningData]);
 
+  // Filter stats results based on card search inputs
+  const filteredProfStats = useMemo(() => {
+    return profStats.filter((p) => p.name.toLowerCase().includes(profSearch.toLowerCase()));
+  }, [profStats, profSearch]);
+
+  const filteredClassStats = useMemo(() => {
+    return classStats.filter((c) => c.name.toLowerCase().includes(classSearch.toLowerCase()));
+  }, [classStats, classSearch]);
+
+  const filteredMatiereStats = useMemo(() => {
+    return matiereStats.filter((m) => m.name.toLowerCase().includes(matiereSearch.toLowerCase()));
+  }, [matiereStats, matiereSearch]);
+
+  // Adjust selectedDate if the loaded dataset doesn't contain it anymore
+  useEffect(() => {
+    if (selectedDate !== 'all' && dates.length > 0 && !dates.includes(selectedDate)) {
+      setSelectedDate(dates[0]);
+    }
+  }, [dates, selectedDate]);
+
+  // Handlers for date pagination buttons
+  const handlePrevDay = () => {
+    if (selectedDate === 'all') return;
+    const currentIndex = dates.indexOf(selectedDate);
+    if (currentIndex > 0) {
+      setSelectedDate(dates[currentIndex - 1]);
+    }
+  };
+
+  const handleNextDay = () => {
+    if (selectedDate === 'all') return;
+    const currentIndex = dates.indexOf(selectedDate);
+    if (currentIndex < dates.length - 1) {
+      setSelectedDate(dates[currentIndex + 1]);
+    }
+  };
+
+  // Select which dates are rendered based on selectedDate tab
+  const renderedDates = useMemo(() => {
+    if (selectedDate === 'all') return dates;
+    return dates.includes(selectedDate) ? [selectedDate] : dates.slice(0, 1);
+  }, [dates, selectedDate]);
+
+
   // Launch planning API call with local fallback simulation
   const handleLaunchPlanning = async () => {
     setIsPlanning(true);
@@ -257,6 +310,11 @@ function App() {
     );
   };
 
+  const handleSelectDay = (dateStr: string) => {
+    setSelectedDate(dateStr);
+    setViewMode('timeline');
+  };
+
   return (
     <div className="app-container">
       {/* Toast Notification */}
@@ -322,12 +380,35 @@ function App() {
             <div className="score">
               Score: {typeof planningData.score === 'string' ? planningData.score : '0hard/0soft'}
             </div>
+
+            {/* View Switcher Button Group */}
+            <div className="view-switcher-group">
+              <button
+                className={`view-switch-btn ${viewMode === 'timeline' ? 'active' : ''}`}
+                onClick={() => setViewMode('timeline')}
+                title="Affichage en Frise Chronologique"
+              >
+                📊 Frise
+              </button>
+              <button
+                className={`view-switch-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={() => setViewMode('grid')}
+                title="Affichage en Grille Calendrier"
+              >
+                📅 Grille
+              </button>
+            </div>
           </div>
         </header>
 
         {/* DASHBOARD STATS GRID */}
         <section className="stats-grid">
-          <StatsCard title="Alerte Professeurs">
+          <StatsCard
+            title="Alerte Professeurs"
+            searchQuery={profSearch}
+            onSearchChange={setProfSearch}
+            searchPlaceholder="Filtrer profs..."
+          >
             <table>
               <thead>
                 <tr>
@@ -337,20 +418,33 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {profStats.map((stat) => (
-                  <StatsRow
-                    key={stat.id}
-                    name={stat.name}
-                    hours={stat.hours}
-                    badgeType={stat.badgeType}
-                    statusLabel={stat.statusLabel}
-                  />
-                ))}
+                {filteredProfStats.length === 0 ? (
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                      Aucun prof trouvé
+                    </td>
+                  </tr>
+                ) : (
+                  filteredProfStats.map((stat) => (
+                    <StatsRow
+                      key={stat.id}
+                      name={stat.name}
+                      hours={stat.hours}
+                      badgeType={stat.badgeType}
+                      statusLabel={stat.statusLabel}
+                    />
+                  ))
+                )}
               </tbody>
             </table>
           </StatsCard>
 
-          <StatsCard title="Charge Classes">
+          <StatsCard
+            title="Charge Classes"
+            searchQuery={classSearch}
+            onSearchChange={setClassSearch}
+            searchPlaceholder="Filtrer classes..."
+          >
             <table>
               <thead>
                 <tr>
@@ -360,20 +454,33 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {classStats.map((stat) => (
-                  <StatsRow
-                    key={stat.id}
-                    name={stat.name}
-                    hours={stat.hours}
-                    badgeType={stat.badgeType}
-                    statusLabel={stat.statusLabel}
-                  />
-                ))}
+                {filteredClassStats.length === 0 ? (
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                      Aucune classe trouvée
+                    </td>
+                  </tr>
+                ) : (
+                  filteredClassStats.map((stat) => (
+                    <StatsRow
+                      key={stat.id}
+                      name={stat.name}
+                      hours={stat.hours}
+                      badgeType={stat.badgeType}
+                      statusLabel={stat.statusLabel}
+                    />
+                  ))
+                )}
               </tbody>
             </table>
           </StatsCard>
 
-          <StatsCard title="Volume Matières">
+          <StatsCard
+            title="Volume Matières"
+            searchQuery={matiereSearch}
+            onSearchChange={setMatiereSearch}
+            searchPlaceholder="Filtrer matières..."
+          >
             <table>
               <thead>
                 <tr>
@@ -383,38 +490,138 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {matiereStats.map((stat) => (
-                  <StatsRow
-                    key={stat.id}
-                    name={stat.name}
-                    hours={stat.hours}
-                    badgeType={stat.badgeType}
-                    statusLabel={stat.statusLabel}
-                  />
-                ))}
+                {filteredMatiereStats.length === 0 ? (
+                  <tr>
+                    <td colSpan={3} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                      Aucune matière trouvée
+                    </td>
+                  </tr>
+                ) : (
+                  filteredMatiereStats.map((stat) => (
+                    <StatsRow
+                      key={stat.id}
+                      name={stat.name}
+                      hours={stat.hours}
+                      badgeType={stat.badgeType}
+                      statusLabel={stat.statusLabel}
+                    />
+                  ))
+                )}
               </tbody>
             </table>
           </StatsCard>
 
           <StatsCard title="Calendrier des Modules">
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', padding: '8px' }}>
               Aucune contrainte de période définie.
             </p>
           </StatsCard>
         </section>
 
-        {/* GANTT DAY TIMELINES */}
-        {dates.map((date) => (
-          <TimelineContainer
-            key={date}
-            dateStr={date}
-            professors={planningData.professeurs}
-            seances={planningData.seances.filter((s) => s.creneau?.debut.startsWith(date))}
+        {/* VIEWCONTROLS: GROUPING AND DATE NAVIGATION */}
+        {viewMode === 'timeline' && (
+          <section className="view-controls">
+            <div className="control-group">
+              <span className="control-label">Grouper par :</span>
+              <div className="pill-selector">
+                <button
+                  className={`pill-btn ${groupMode === 'prof' ? 'active' : ''}`}
+                  onClick={() => setGroupMode('prof')}
+                >
+                  👤 Professeurs
+                </button>
+                <button
+                  className={`pill-btn ${groupMode === 'classe' ? 'active' : ''}`}
+                  onClick={() => setGroupMode('classe')}
+                >
+                  👥 Classes
+                </button>
+                <button
+                  className={`pill-btn ${groupMode === 'salle' ? 'active' : ''}`}
+                  onClick={() => setGroupMode('salle')}
+                >
+                  🏫 Salles
+                </button>
+              </div>
+            </div>
+
+            {dates.length > 0 && (
+              <div className="control-group date-navigator-group">
+                <span className="control-label">Date :</span>
+                <div className="date-navigator">
+                  <button
+                    className="nav-arrow-btn"
+                    onClick={handlePrevDay}
+                    disabled={selectedDate === 'all' || dates.indexOf(selectedDate) === 0}
+                    title="Jour précédent"
+                  >
+                    ◀
+                  </button>
+                  <div className="date-tabs-container">
+                    <button
+                      className={`date-tab ${selectedDate === 'all' ? 'active' : ''}`}
+                      onClick={() => setSelectedDate('all')}
+                    >
+                      Toutes les dates
+                    </button>
+                    {dates.map((dateStr) => {
+                      const dateObj = new Date(dateStr);
+                      const formattedDate = dateObj.toLocaleDateString('fr-FR', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short'
+                      });
+                      return (
+                        <button
+                          key={dateStr}
+                          className={`date-tab ${selectedDate === dateStr ? 'active' : ''}`}
+                          onClick={() => setSelectedDate(dateStr)}
+                        >
+                          {formattedDate}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    className="nav-arrow-btn"
+                    onClick={handleNextDay}
+                    disabled={selectedDate === 'all' || dates.indexOf(selectedDate) === dates.length - 1}
+                    title="Jour suivant"
+                  >
+                    ▶
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* DETAILED GANTT TIMELINES OR COMPACT CALENDAR GRID */}
+        {viewMode === 'timeline' ? (
+          renderedDates.map((date) => (
+            <TimelineContainer
+              key={date}
+              dateStr={date}
+              groupMode={groupMode}
+              professors={planningData.professeurs}
+              classes={planningData.classes}
+              salles={planningData.salles || []}
+              seances={planningData.seances.filter((s) => s.creneau?.debut.startsWith(date))}
+              selectedProfs={selectedProfs}
+              selectedClasses={selectedClasses}
+              selectedMatieres={selectedMatieres}
+            />
+          ))
+        ) : (
+          <DayGrid
+            dates={dates}
+            seances={planningData.seances}
             selectedProfs={selectedProfs}
             selectedClasses={selectedClasses}
             selectedMatieres={selectedMatieres}
+            onSelectDay={handleSelectDay}
           />
-        ))}
+        )}
       </main>
     </div>
   );
