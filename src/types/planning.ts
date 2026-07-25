@@ -22,7 +22,6 @@ export interface Classe {
 export interface Matiere {
   id: number;
   nom: string;
-  volumeHoraireAnnuel?: number;
 }
 
 export interface Eleve {
@@ -57,10 +56,14 @@ export interface Seance {
 }
 
 export interface MatiereClasseConfig {
-  classe: Classe | null;
-  matiere: Matiere | null;
-  dateDebut?: string;
-  dateFin?: string;
+  id?: number;
+  classeId: number;
+  classeNom: string;
+  matiereId: number;
+  matiereNom: string;
+  dateDebut?: string; // ISO LocalDate string e.g. "2026-01-01"
+  dateFin?: string;   // ISO LocalDate string e.g. "2026-06-30"
+  volumeHorairePeriode?: number;
 }
 
 export interface Planning {
