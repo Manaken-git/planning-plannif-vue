@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import './App.css';
 import { TimelineContainer } from './components/organisms/TimelineContainer';
 import { DayGrid } from './components/organisms/DayGrid';
+import { VacancesManager } from './components/organisms/VacancesManager';
 import { FilterGroup } from './components/organisms/FilterGroup';
 import { StatsCard } from './components/organisms/StatsCard';
 import { StatsRow } from './components/molecules/StatsRow';
@@ -42,7 +43,7 @@ function App() {
   // Advanced pagination/filtering states for large datasets
   const [selectedDate, setSelectedDate] = useState<string>('all');
   const [groupMode, setGroupMode] = useState<'prof' | 'classe' | 'salle'>('prof');
-  const [viewMode, setViewMode] = useState<'timeline' | 'grid'>('timeline');
+  const [viewMode, setViewMode] = useState<'timeline' | 'grid' | 'vacances'>('timeline');
   const [profSearch, setProfSearch] = useState('');
   const [classSearch, setClassSearch] = useState('');
   const [matiereSearch, setMatiereSearch] = useState('');
@@ -397,6 +398,13 @@ function App() {
               >
                 📅 Grille
               </button>
+              <button
+                className={`view-switch-btn ${viewMode === 'vacances' ? 'active' : ''}`}
+                onClick={() => setViewMode('vacances')}
+                title="Gestion des Vacances"
+              >
+                🌴 Vacances
+              </button>
             </div>
           </div>
         </header>
@@ -612,7 +620,7 @@ function App() {
               selectedMatieres={selectedMatieres}
             />
           ))
-        ) : (
+        ) : viewMode === 'grid' ? (
           <DayGrid
             dates={dates}
             seances={planningData.seances}
@@ -621,6 +629,11 @@ function App() {
             selectedMatieres={selectedMatieres}
             onSelectDay={handleSelectDay}
           />
+        ) : (
+          <VacancesManager onNotify={(msg, type) => {
+            setToast({ message: msg, type });
+            setTimeout(() => setToast(null), 3000);
+          }} />
         )}
       </main>
     </div>

@@ -1,4 +1,4 @@
-import type { Classe, Professeur, Seance, Matiere, Salle, Eleve, Planning } from '../types/planning';
+import type { Classe, Professeur, Seance, Matiere, Salle, Eleve, Planning, Vacances } from '../types/planning';
 
 const DATA_BASE_URL = '/planning-data';
 const SOLVER_BASE_URL = '/planning';
@@ -96,4 +96,47 @@ export async function fetchAllPlanningData(): Promise<FetchedDataResult> {
  */
 export async function solvePlanning(): Promise<Planning | Seance[] | any> {
   return fetchJson<any>(`${SOLVER_BASE_URL}/solve`);
+}
+
+/**
+ * Récupère la liste des vacances scolaires
+ */
+export async function fetchVacances(): Promise<Vacances[]> {
+  return fetchJson<Vacances[]>(`${DATA_BASE_URL}/vacances/list`);
+}
+
+/**
+ * Enregistre une période de vacances
+ */
+export async function createVacances(vacances: Vacances): Promise<Vacances> {
+  const url = `${DATA_BASE_URL}/vacances/create`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify(vacances),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || `Erreur HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Supprime une période de vacances
+ */
+export async function deleteVacances(id: number): Promise<void> {
+  const url = `${DATA_BASE_URL}/vacances/delete/${id}`;
+  const response = await fetch(url, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erreur HTTP ${response.status} lors de la suppression`);
+  }
 }

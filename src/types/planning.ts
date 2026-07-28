@@ -80,3 +80,10 @@ export interface Planning {
     toString: () => string;
   } | string;
 }
+
+export interface Vacances {
+  id?: number;
+  nom: string;
+  dateDebut: string; // ISO LocalDate string e.g. "2026-01-01"
+  dateFin: string;   // ISO LocalDate string e.g. "2026-01-08"
+}
