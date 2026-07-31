@@ -66,6 +66,15 @@ export interface MatiereClasseConfig {
   volumeHorairePeriode?: number;
 }
 
+export interface Score {
+  hardScore: number;
+  softScore: number;
+  feasible?: boolean;
+  zero?: boolean;
+  initScore?: number;
+  solutionInitialized?: boolean;
+}
+
 export interface Planning {
   seances: Seance[];
   professeurs: Professeur[];
@@ -74,11 +83,7 @@ export interface Planning {
   salles?: Salle[];
   eleves?: Eleve[];
   matiereClasseConfigs: MatiereClasseConfig[];
-  score?: {
-    hard: number;
-    soft: number;
-    toString: () => string;
-  } | string;
+  score?: Score | string;
 }
 
 export interface Vacances {

@@ -31,6 +31,18 @@ const getSessionHours = (seance: Seance) => {
   return diffMs / (1000 * 60 * 60); // MS to Hours
 };
 
+// Helper to format score object or string
+const formatScore = (score: any): string => {
+  if (!score) return '0hard/0soft';
+  if (typeof score === 'string') return score;
+  if (typeof score === 'object') {
+    const hard = score.hardScore !== undefined ? score.hardScore : (score.hard !== undefined ? score.hard : 0);
+    const soft = score.softScore !== undefined ? score.softScore : (score.soft !== undefined ? score.soft : 0);
+    return `${hard}hard/${soft}soft`;
+  }
+  return '0hard/0soft';
+};
+
 function App() {
   // State
   const [planningData, setPlanningData] = useState<Planning>(mockPlanningData);
@@ -379,7 +391,7 @@ function App() {
               )}
             </button>
             <div className="score">
-              Score: {typeof planningData.score === 'string' ? planningData.score : '0hard/0soft'}
+              Score: {formatScore(planningData.score)}
             </div>
 
             {/* View Switcher Button Group */}
