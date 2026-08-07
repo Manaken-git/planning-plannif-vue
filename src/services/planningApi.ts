@@ -140,3 +140,60 @@ export async function deleteVacances(id: number): Promise<void> {
     throw new Error(`Erreur HTTP ${response.status} lors de la suppression`);
   }
 }
+
+export interface SavedPlanningHeader {
+  id: number;
+  nom: string;
+  dateCreation: string;
+}
+
+/**
+ * Récupère la liste des plannings sauvegardés dans le backend
+ */
+export async function fetchSavedPlannings(): Promise<SavedPlanningHeader[]> {
+  return fetchJson<SavedPlanningHeader[]>(`${DATA_BASE_URL}/plannings/list`);
+}
+
+/**
+ * Récupère le détail d'un planning sauvegardé dans le backend
+ */
+export async function fetchSavedPlanningDetails(id: number): Promise<any> {
+  return fetchJson<any>(`${DATA_BASE_URL}/plannings/${id}`);
+}
+
+/**
+ * Enregistre un planning actuel dans la base de données du backend
+ */
+export async function savePlanningBackend(planning: any): Promise<any> {
+  const url = `${DATA_BASE_URL}/plannings/save`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify(planning),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || `Erreur HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Supprime un planning sauvegardé
+ */
+export async function deletePlanningBackend(id: number): Promise<void> {
+  const url = `${DATA_BASE_URL}/plannings/delete/${id}`;
+  const response = await fetch(url, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erreur HTTP ${response.status} lors de la suppression`);
+  }
+}
+
