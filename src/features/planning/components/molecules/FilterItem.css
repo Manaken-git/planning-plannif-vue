@@ -1,0 +1,9 @@
+﻿.filter-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.filter-subject-label { display: inline-flex; align-items: center; gap: 7px; }
+.filter-subject-label i { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+

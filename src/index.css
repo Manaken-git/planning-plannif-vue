@@ -1,27 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: rgba(37, 99, 235, 0.08);
-  --accent: #8b5cf6;
-  --accent-light: rgba(139, 92, 246, 0.08);
-  --secondary: #64748b;
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --card-hover: #f1f5f9;
-  --text: #1e293b;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --success: #166534;
-  --success-bg: #dcfce7;
-  --warning: #854d0e;
-  --warning-bg: #fef9c3;
-  --danger: #991b1b;
-  --danger-bg: #fee2e2;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary: #7c3aed;
+  --primary-hover: #8b5cf6;
+  --primary-light: rgba(124, 58, 237, 0.18);
+  --accent: #22d3ee;
+  --accent-strong: #0ea5e9;
+  --accent-light: rgba(34, 211, 238, 0.14);
+  --secondary: #94a3b8;
+  --bg: #020817;
+  --bg-2: #061a3b;
+  --card: rgba(13, 28, 63, 0.82);
+  --card-strong: rgba(18, 35, 77, 0.95);
+  --card-hover: rgba(24, 48, 103, 0.92);
+  --text: #f8fbff;
+  --text-soft: #d8e2ff;
+  --text-muted: #9aa8d4;
+  --border: rgba(136, 165, 255, 0.23);
+  --border-strong: rgba(169, 141, 255, 0.5);
+  --success: #31e981;
+  --success-bg: rgba(49, 233, 129, 0.14);
+  --warning: #fb7b54;
+  --warning-bg: rgba(251, 123, 84, 0.14);
+  --danger: #ff4d7d;
+  --danger-bg: rgba(255, 77, 125, 0.14);
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.36);
+  --glow-primary: 0 0 30px rgba(124, 58, 237, 0.55);
+  --transition: all 0.22s ease;
 }
 
 * {
@@ -30,101 +36,62 @@
   padding: 0;
 }
 
-body {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+html {
+  min-width: 320px;
   background: var(--bg);
-  color: var(--text);
+}
+
+body {
   min-height: 100vh;
   overflow-x: hidden;
+  color: var(--text);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(124, 58, 237, 0.24), transparent 28rem),
+    radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.2), transparent 24rem),
+    linear-gradient(135deg, #020817 0%, #06183a 52%, #0c1230 100%);
 }
 
-/* APP STRUCTURE */
-.app-container {
-  display: flex;
-  min-height: 100vh;
-  background: var(--bg);
+button,
+input {
+  font: inherit;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 280px;
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  padding: 25px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
+button {
+  color: inherit;
 }
 
-.sidebar h2 {
-  color: var(--primary);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 30px;
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
 }
 
-/* MAIN CONTENT */
-.main-content {
-  flex: 1;
-  padding: 40px;
-  overflow-y: auto;
-  height: 100vh;
+table {
+  border-collapse: collapse;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  gap: 20px;
-}
-
-h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-  background: linear-gradient(to right, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.score {
-  font-weight: bold;
-  background: var(--success-bg);
-  color: var(--success);
-  padding: 10px 20px;
-  border-radius: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  font-size: 0.9rem;
-  border: 1px solid rgba(22, 101, 52, 0.15);
-  white-space: nowrap;
-}
-
-/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(5, 13, 31, 0.45);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
+  background: rgba(130, 154, 222, 0.42);
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary);
+  background: rgba(167, 139, 250, 0.7);
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -137,5 +104,6 @@ h1 {
 }
 
 .fade-in {
-  animation: fadeIn 0.4s ease forwards;
+  animation: fadeIn 0.35s ease forwards;
 }
+

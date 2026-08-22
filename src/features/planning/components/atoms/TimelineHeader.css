@@ -1,0 +1,39 @@
+﻿.timeline-header {
+  display: flex;
+  background: #1e293b;
+  border-bottom: 2px solid var(--border);
+  min-width: 1000px;
+}
+
+.timeline-label-col {
+  width: 180px;
+  padding: 15px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-right: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--text);
+}
+
+.timeline-slots-container {
+  display: flex;
+  flex: 1;
+}
+
+.timeline-slot {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--text-muted);
+}
+
+.timeline-slot:last-child {
+  border-right: none;
+}
+

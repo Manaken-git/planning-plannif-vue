@@ -34,3 +34,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.codex-port/node_modules/@rolldown/binding-win32-x64-msvc/rolldown-binding.win32-x64-msvc.node
